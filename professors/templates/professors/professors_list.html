@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Professors{% endblock %}
+{% block content %}
+<h2>Professors</h2>
+
+<form method="GET">
+    <input type="text" name="q" placeholder="Search professors">
+    <button type="submit">Search</button>
+</form>
+
+<ul>
+    {% for professor in object_list %}
+        <li><a href="{% url 'professor_detail' professor.pk %}">{{ professor.name }}</a></li>
+    {% empty %}
+        <p>No professors found.</p>
+    {% endfor %}
+</ul>
+
+{% endblock %}

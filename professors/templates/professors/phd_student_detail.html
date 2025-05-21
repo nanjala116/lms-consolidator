@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% block title %}PhD Student Details{% endblock %}
+{% block content %}
+<h2>{{ phdstudent.name }}</h2>
+<p><strong>Research Topic:</strong> {{ phdstudent.research_topic }}</p>
+<p><strong>Supervisor:</strong> <a href="{% url 'professor_detail' phdstudent.supervisor.pk %}">{{ phdstudent.supervisor.name }}</a></p>
+<p><strong>Email:</strong> {{ phdstudent.email }}</p>
+<p><strong>Start Year:</strong> {{ phdstudent.start_year }}</p>
+<p><strong>End Year:</strong> {% if phdstudent.end_year %}{{ phdstudent.end_year }}{% else %}Ongoing{% endif %}</p>
+<a href="{% url 'phd_student_list' %}">Back to PhD Students</a>
+{% endblock %}

@@ -1,0 +1,68 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 10px;
+    background-color: #f8f9fa; /* Light background */
+}
+
+/* Headings */
+h2 {
+    color: #004080; /* Deep blue */
+}
+
+/* Links */
+a {
+    text-decoration: none;
+    color: #004080; /* Blue */
+}
+
+a:hover {
+    color: #ff6600; /* Orange */
+}
+
+/* Lists */
+ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+/* Search Bar */
+.search-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+input[type="text"] {
+    width: 300px;
+    padding: 10px;
+    border: 2px solid #004080; /* Blue border */
+    border-radius: 5px;
+    font-size: 16px;
+    outline: none;
+}
+
+input[type="text"]:focus {
+    border-color: #ff6600; /* Orange focus */
+}
+
+/* Buttons */
+button {
+    padding: 10px 15px;
+    margin-left: 10px;
+    background-color: #004080; /* Blue */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button:hover {
+    background-color: #ff6600; /* Orange */
+}

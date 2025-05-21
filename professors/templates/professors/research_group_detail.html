@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %}Research Group Details{% endblock %}
+{% block content %}
+<h2>{{ researchgroup.name }}</h2>
+<p><strong>Field of Study:</strong> {{ researchgroup.field }}</p>
+<p><strong>Lead Researcher:</strong> <a href="{% url 'professor_detail' researchgroup.lead_researcher.pk %}">{{ researchgroup.lead_researcher.name }}</a></p>
+<p><strong>Website:</strong> {% if researchgroup.website %}<a href="{{ researchgroup.website }}">{{ researchgroup.website }}</a>{% else %}N/A{% endif %}</p>
+<p><strong>Members:</strong></p>
+<ul>
+    {% for member in researchgroup.members.all %}
+        <li><a href="{% url 'phd_student_detail' member.pk %}">{{ member.name }}</a></li>
+    {% empty %}
+        <p>No members listed.</p>
+    {% endfor %}
+</ul>
+<a href="{% url 'research_group_list' %}">Back to Research Groups</a>
+{% endblock %}

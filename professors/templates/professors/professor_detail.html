@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Professor Details{% endblock %}
+{% block content %}
+<h2>{{ professor.name }}</h2>
+<p><strong>Department:</strong> {{ professor.department }}</p>
+<p><strong>Bio:</strong> {{ professor.bio }}</p>
+<p><strong>Email:</strong> {{ professor.email }}</p>
+{% if professor.website %}
+    <p><strong>Website:</strong> <a href="{{ professor.website }}">{{ professor.website }}</a></p>
+{% endif %}
+<a href="{% url 'professor_list' %}">Back to Professors</a>
+{% endblock %}
