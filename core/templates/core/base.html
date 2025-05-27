@@ -1,0 +1,318 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}University Database{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Google Fonts for a clean sans-serif look -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #005baa;
+            --secondary: #3b8fc1;
+            --light-bg: #f8fafc;
+            --white: #fff;
+            --nav-bg: #003e68;
+            --nav-text: #fff;
+            --nav-hover: #e1e8ed;
+            --footer-bg: #f3f5f7;
+            --footer-text: #005baa;
+            --body-text: #222;
+        }
+        html {
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        *, *:before, *:after {
+            box-sizing: inherit;
+        }
+        body {
+            margin: 0;
+            font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+            background: var(--light-bg);
+            color: var(--body-text);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            font-size: 1rem;
+        }
+        nav {
+            background: var(--nav-bg);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+            padding: 0;
+            width: 100%;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            padding: 0.5em 1.2em;
+            justify-content: space-between;
+            position: relative;
+        }
+        .nav-logo {
+            color: var(--nav-text);
+            font-size: 1.45em;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-decoration: none;
+            white-space: nowrap;
+            margin-right: 2em;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        .admin-btn {
+            display: inline-block;
+            background: var(--secondary);
+            color: #fff;
+            font-weight: 600;
+            text-decoration: none;
+            border-radius: 8px;
+            padding: 0.65em 1.6em;
+            font-size: 1em;
+            margin-left: 1.2em;
+            transition: background 0.2s;
+            border: none;
+            min-width: 44px;
+            min-height: 44px;
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+            order: 2;
+        }
+        .admin-btn:hover, .admin-btn:focus {
+            background: var(--primary);
+            color: #fff;
+        }
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            width: 32px;
+            height: 32px;
+            justify-content: center;
+            align-items: center;
+            margin-right: 10px;
+            order: 3;
+        }
+        .nav-toggle span {
+            width: 26px;
+            height: 4px;
+            background: var(--nav-text);
+            margin: 3px 0;
+            border-radius: 3px;
+            transition: 0.3s;
+            display: block;
+        }
+        .nav-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(5px, 5px);
+        }
+        .nav-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .nav-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(6px, -6px);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2em;
+            flex-wrap: wrap;
+            order: 1;
+        }
+        .nav-links a {
+            color: var(--nav-text);
+            text-decoration: none;
+            font-size: 1.07em;
+            font-weight: 600;
+            padding: 0.4em 0.2em;
+            transition: color 0.2s, border-bottom 0.2s;
+            border-bottom: 2px solid transparent;
+        }
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--nav-hover);
+            border-bottom: 2px solid var(--secondary);
+        }
+        main {
+            flex: 1 0 auto;
+            max-width: 1100px;
+            margin: 2.5em auto 2em auto;
+            background: var(--white);
+            border-radius: 10px;
+            box-shadow: 0 2px 16px rgba(0,0,0,0.04);
+            padding: 2em 1.5em;
+            width: 95%;
+        }
+        footer {
+            background: var(--footer-bg);
+            color: var(--footer-text);
+            text-align: center;
+            padding: 1.1em 0 1em 0;
+            font-size: 1em;
+            letter-spacing: 0.02em;
+            border-top: 1px solid #e1e8ed;
+            flex-shrink: 0;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+        /* Responsive Styles */
+        @media (max-width: 900px) {
+            main {
+                border-radius: 0;
+                margin: 0.5em 0 0.5em 0;
+                padding: 1em 0.3em;
+                width: 99%;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5em;
+                padding: 0.5em 0.6em;
+            }
+            .nav-right {
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+            }
+            .nav-links {
+                gap: 1.2em;
+                justify-content: center;
+                flex-wrap: wrap;
+            }
+            .admin-btn {
+                margin-left: 0;
+                margin-top: 0.7em;
+                width: 100%;
+            }
+        }
+        @media (max-width: 600px) {
+            html {
+                font-size: 15px;
+            }
+            body {
+                font-size: 1.08em;
+            }
+            .nav-logo {
+                font-size: 1.1em;
+            }
+            .nav-container {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25em;
+            }
+            .nav-right {
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                width: 100%;
+            }
+            .nav-links {
+                order: 3;
+                flex-direction: column;
+                gap: 0.5em;
+                align-items: flex-start;
+                width: 170px;
+                background: var(--nav-bg);
+                position: absolute;
+                top: 105px; /* Adjust for nav height as needed */
+                right: 16px;
+                box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+                z-index: 1000;
+                border-radius: 8px;
+                padding: 1em 0.5em;
+                display: none;
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .admin-btn {
+                order: 1;
+                margin-bottom: 0.5em;
+                margin-top: 0.5em;
+                width: 100%;
+                display: block;
+                text-align: center;
+            }
+            .nav-toggle {
+                order: 2;
+                display: flex;
+                margin-bottom: 0.5em;
+                align-self: flex-end;
+            }
+            main {
+                padding: 0.7em 0.1em;
+                margin: 0.3em 0 0.7em 0;
+                width: 100%;
+                min-width: 0;
+            }
+            footer {
+                font-size: 0.92em;
+                padding: 0.8em 0 0.8em 0;
+            }
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body>
+    <nav>
+        <div class="nav-container">
+            <a href="{% url 'home' %}" class="nav-logo">University Database &middot; German UDS</a>
+            <div class="nav-right">
+                <div class="nav-links" id="navLinks">
+                    <a href="{% url 'course_list' %}" {% if request.resolver_match.url_name == 'course_list' %}class="active"{% endif %}>Courses</a>
+                    <a href="{% url 'professor_list' %}" {% if request.resolver_match.url_name == 'professor_list' %}class="active"{% endif %}>Professors</a>
+                    <a href="{% url 'researchgroup_list' %}" {% if request.resolver_match.url_name == 'researchgroup_list' %}class="active"{% endif %}>Research Groups</a>
+                    <a href="{% url 'phdstudent_list' %}" {% if request.resolver_match.url_name == 'phdstudent_list' %}class="active"{% endif %}>PhD Students</a>
+                </div>
+                <a href="{% url 'admin:index' %}" class="admin-btn">Admin</a>
+                <div class="nav-toggle" id="navToggle" aria-label="Toggle navigation" tabindex="0">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <main>
+        {% block content %}
+        <!-- Page-specific content goes here -->
+        {% endblock %}
+    </main>
+    <footer>
+        &copy; {% now "Y" %} German University of Digital Science Database &middot; Developed by Team Green
+    </footer>
+    <script>
+        // Hamburger menu toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('open');
+            navToggle.classList.toggle('active');
+        });
+        // Optional: close menu on link click (for better UX on mobile)
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if(window.innerWidth <= 600) {
+                    navLinks.classList.remove('open');
+                    navToggle.classList.remove('active');
+                }
+            });
+        });
+        // Optional: allow keyboard toggle with Enter/Space
+        navToggle.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                navLinks.classList.toggle('open');
+                navToggle.classList.toggle('active');
+            }
+        });
+    </script>
+</body>
+</html>

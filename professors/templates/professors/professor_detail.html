@@ -1,12 +1,35 @@
-{% extends "base.html" %}
-{% block title %}Professor Details{% endblock %}
+{% extends "core/base.html" %}
+
 {% block content %}
-<h2>{{ professor.name }}</h2>
-<p><strong>Department:</strong> {{ professor.department }}</p>
-<p><strong>Bio:</strong> {{ professor.bio }}</p>
-<p><strong>Email:</strong> {{ professor.email }}</p>
-{% if professor.website %}
-    <p><strong>Website:</strong> <a href="{{ professor.website }}">{{ professor.website }}</a></p>
-{% endif %}
-<a href="{% url 'professor_list' %}">Back to Professors</a>
+  <div class="professor-detail">
+    <h2>{{ professor.title }} {{ professor.name }}</h2>  <!-- Dynamic name only -->
+    {% if professor.image_url %}
+      <img src="{{ professor.image_url }}" alt="{{ professor.name }}" class="professor-photo">
+    {% endif %}
+
+    <ul class="professor-info">
+      <li><strong>Position:</strong> {{ professor.position }}</li>
+      <li><strong>Main Research Group:</strong>
+        {% if professor.research_group %}
+          {{ professor.research_group }}
+        {% else %}
+          <span>-</span>
+        {% endif %}
+      </li>
+      <li><strong>Leads Group:</strong>
+        {% if professor.leads_research_group %}
+          {{ professor.leads_research_group }}
+        {% else %}
+          <span>-</span>
+        {% endif %}
+      </li>
+    </ul>
+
+    {% if professor.bio %}
+      <h3>Bio</h3>
+      <p class="professor-bio">{{ professor.bio }}</p>
+    {% endif %}
+
+    <a href="{% url 'professor_list' %}">&larr; Back to Professors</a>
+  </div>
 {% endblock %}

@@ -1,0 +1,54 @@
+{% extends "core/base.html" %}
+{% block title %}Research Groups | University Database{% endblock %}
+{% block content %}
+<h1>Research Groups</h1>
+<div>
+  <a href="?view=list"{% if view_mode == "list" %} style="font-weight:bold;"{% endif %}>List View</a> |
+  <a href="?view=block"{% if view_mode == "block" %} style="font-weight:bold;"{% endif %}>Block View</a>
+</div>
+{% if view_mode == "list" %}
+  <ul>
+    {% for group in groups %}
+      <li>
+        <a href="{% url 'researchgroup_detail' group.id %}">{{ group.name }}</a>
+        {% if group.lead_professor %}
+          — Lead:
+          <a href="{% url 'professor_detail' group.lead_professor.id %}">
+            {{ group.lead_professor.name }}
+          </a>
+        {% endif %}
+        {% if group.description %}
+          <br>{{ group.description|truncatechars:100 }}
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>No research groups found.</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div style="display:flex; flex-wrap:wrap; gap:2em; margin-top:2em;">
+    {% for group in groups %}
+      <div style="background:#f8fafc; border-radius:8px; box-shadow:0 2px 8px #ddd; width:330px; padding:1.5em;">
+        <h2 style="margin-top:0;">
+          <a href="{% url 'researchgroup_detail' group.id %}" style="color:#005baa; text-decoration:none;">
+            {{ group.name }}
+          </a>
+        </h2>
+        {% if group.lead_professor %}
+          <div style="font-size:0.97em; color:#555;">
+            Lead Professor:
+            <a href="{% url 'professor_detail' group.lead_professor.id %}">{{ group.lead_professor.name }}</a>
+          </div>
+        {% else %}
+          <div style="font-size:0.97em; color:#888;">No lead professor</div>
+        {% endif %}
+        {% if group.description %}
+          <div style="margin-top:1em;">{{ group.description|linebreaksbr }}</div>
+        {% endif %}
+      </div>
+    {% empty %}
+      <p>No research groups found.</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

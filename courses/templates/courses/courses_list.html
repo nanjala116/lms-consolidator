@@ -1,0 +1,74 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+  <h1>Courses</h1>
+
+  <div class="view-switcher">
+    <a href="?view=block"{% if view_mode == "block" %} class="active"{% endif %}>Block View</a> |
+    <a href="?view=list"{% if view_mode == "list" %} class="active"{% endif %}>List View</a>
+  </div>
+
+  {% if courses %}
+    {% if view_mode == "list" %}
+      <table class="course-table">
+        <thead>
+          <tr>
+            <th>Image</th>
+            <th>Name</th>
+            <th>Code</th>
+            <th>Credits</th>
+            <th>Format</th>
+            <th>Level</th>
+            <th>Start</th>
+            <th>End</th>
+          </tr>
+        </thead>
+        <tbody>
+        {% for course in courses %}
+          <tr>
+            <td>
+              {% if course.image_url %}
+                <img src="{{ course.image_url }}" alt="{{ course.name }}" width="50">
+              {% else %}
+                <span>No image</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'course_detail' course.pk %}">{{ course.name }}</a>
+            </td>
+            <td>{{ course.code }}</td>
+            <td>{{ course.credits }}</td>
+            <td>{{ course.format }}</td>
+            <td>{{ course.level }}</td>
+            <td>{{ course.start_date }}</td>
+            <td>{{ course.end_date }}</td>
+          </tr>
+        {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <div class="course-blocks">
+        {% for course in courses %}
+          <div class="course-card">
+            {% if course.image_url %}
+              <img src="{{ course.image_url }}" alt="{{ course.name }}" width="120">
+            {% endif %}
+            <h2>
+              <a href="{% url 'course_detail' course.pk %}">{{ course.name }}</a>
+            </h2>
+            <p><strong>Code:</strong> {{ course.code }}</p>
+            <p><strong>Credits:</strong> {{ course.credits }}</p>
+            <p><strong>Format:</strong> {{ course.format }}</p>
+            <p><strong>Level:</strong> {{ course.level }}</p>
+            <p><strong>Start:</strong> {{ course.start_date }}</p>
+            <p><strong>End:</strong> {{ course.end_date }}</p>
+            <p>{{ course.description|truncatewords:30 }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% else %}
+    <p>No courses found.</p>
+  {% endif %}
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "admin/base_site.html" %}
+{% block content %}
+  <h2>{{ title|default:"Import from CSV" }}</h2>
+  <form method="post" enctype="multipart/form-data">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Upload">
+  </form>
+  <div style="margin-top:2em;">
+    <a href="..">Back to list</a>
+  </div>
+{% endblock %}

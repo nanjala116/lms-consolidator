@@ -1,0 +1,17 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+  <h1>{{ student.title }} {{ student.name }}</h1>
+
+  {% if student.image_url %}
+    <img src="{{ student.image_url }}" alt="{{ student.name }}" width="180" style="margin-bottom: 1em;">
+  {% endif %}
+
+  <ul>
+    <li><strong>Research Group:</strong> {{ student.research_group }}</li>
+    <li><strong>Supervisor:</strong> {{ student.supervisor }}</li>
+    <li><strong>Enrolled:</strong> {{ student.enrollment_date }}</li>
+  </ul>
+
+  <a href="{% url 'phdstudent_list' %}">&larr; Back to PhD Students</a>
+{% endblock %}

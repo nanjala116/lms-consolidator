@@ -1,0 +1,33 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+  <h1>{{ course.name }}</h1>
+  {% if course.image_url %}
+    <img src="{{ course.image_url }}" alt="{{ course.name }}" width="180" style="margin-bottom: 1em;">
+  {% endif %}
+  <ul>
+    <li><strong>Code:</strong> {{ course.code }}</li>
+    <li><strong>Credits:</strong> {{ course.credits }}</li>
+    <li><strong>Format:</strong> {{ course.format }}</li>
+    <li><strong>Level:</strong> {{ course.level }}</li>
+    <li><strong>Start Date:</strong> {{ course.start_date }}</li>
+    <li><strong>End Date:</strong> {{ course.end_date }}</li>
+    <li><strong>Professors:</strong>
+      {% for professor in course.professors.all %}
+        {{ professor }}{% if not forloop.last %}, {% endif %}
+      {% empty %}
+        <span>None</span>
+      {% endfor %}
+    </li>
+    <li><strong>Research Groups:</strong>
+      {% for group in course.research_groups.all %}
+        {{ group }}{% if not forloop.last %}, {% endif %}
+      {% empty %}
+        <span>None</span>
+      {% endfor %}
+    </li>
+  </ul>
+  <h3>Description</h3>
+  <p>{{ course.description }}</p>
+  <a href="{% url 'course_list' %}">&larr; Back to Courses</a>
+{% endblock %}

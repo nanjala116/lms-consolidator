@@ -1,0 +1,68 @@
+{% extends "core/base.html" %}
+
+{% block content %}
+<h1>PhD Students</h1>
+
+<!-- Optionally allow switching view modes -->
+<div class="view-switcher">
+  <a href="?view=block"{% if view_mode == "block" %} class="active"{% endif %}>Block View</a> |
+  <a href="?view=list"{% if view_mode == "list" %} class="active"{% endif %}>List View</a>
+</div>
+
+{% if students %}
+  {% if view_mode == "list" %}
+    <table class="phd-student-table">
+      <thead>
+        <tr>
+          <th>Photo</th>
+          <th>Name</th>
+          <th>Research Group</th>
+          <th>Supervisor</th>
+          <th>Enrollment Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for student in students %}
+          <tr>
+            <td>
+              {% if student.image_url %}
+                <img src="{{ student.image_url }}" alt="{{ student.name }}" width="60">
+              {% else %}
+                <span>No image</span>
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'phd_student_detail' student.pk %}">
+                {{ student.title }} {{ student.name }}
+              </a>
+            </td>
+            <td>{{ student.research_group }}</td>
+            <td>{{ student.supervisor }}</td>
+            <td>{{ student.enrollment_date }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <div class="phd-student-blocks">
+      {% for student in students %}
+        <div class="phd-student-card">
+          {% if student.image_url %}
+            <img src="{{ student.image_url }}" alt="{{ student.name }}" width="120">
+          {% endif %}
+          <h2>
+            <a href="{% url 'phd_student_detail' student.pk %}">
+              {{ student.title }} {{ student.name }}
+            </a>
+          </h2>
+          <p><strong>Research Group:</strong> {{ student.research_group }}</p>
+          <p><strong>Supervisor:</strong> {{ student.supervisor }}</p>
+          <p><strong>Enrolled:</strong> {{ student.enrollment_date }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% else %}
+  <p>No PhD students found.</p>
+{% endif %}
+{% endblock %}
