@@ -1,94 +1,64 @@
 {% extends "core/base.html" %}
-
+{% block title %}Professors | University Database{% endblock %}
 {% block content %}
-  <h1>Professors</h1>
-
-  <div class="view-switcher">
-    <a href="?view=block"{% if view_mode == "block" %} class="active"{% endif %}>Block View</a> |
-    <a href="?view=list"{% if view_mode == "list" %} class="active"{% endif %}>List View</a>
-  </div>
-
-  {% if professors %}
-    {% if view_mode == "list" %}
-      <table class="professor-table">
-        <thead>
-          <tr>
-            <th>Photo</th>
-            <th>Name</th>
-            <th>Position</th>
-            <th>Main Group</th>
-            <th>Leads Group</th>
-          </tr>
-        </thead>
-        <tbody>
-        {% for professor in professors %}
-          <tr>
-            <td>
-              {% if professor.image_url %}
-                <img src="{{ professor.image_url }}" alt="{{ professor.name }}" width="60">
-              {% else %}
-                <span>No image</span>
-              {% endif %}
-            </td>
-            <td>
-              <a href="{% url 'professor_detail' professor.pk %}">
-                {{ professor.title }} {{ professor.name }}
-              </a>
-            </td>
-            <td>{{ professor.position }}</td>
-            <td>
-              {% if professor.research_group %}
-                {{ professor.research_group }}
-              {% else %}
-                <span>-</span>
-              {% endif %}
-            </td>
-            <td>
-              {% if professor.leads_research_group %}
-                {{ professor.leads_research_group }}
-              {% else %}
-                <span>-</span>
-              {% endif %}
-            </td>
-          </tr>
-        {% endfor %}
-        </tbody>
-      </table>
-    {% else %}
-      <div class="professors-blocks">
-        {% for professor in professors %}
-          <div class="professor-card">
-            {% if professor.image_url %}
-              <img src="{{ professor.image_url }}" alt="{{ professor.name }}" width="120">
-            {% endif %}
-            <h2>
-              <a href="{% url 'professor_detail' professor.pk %}">
-                {{ professor.title }} {{ professor.name }}
-              </a>
-            </h2>
-            <p><strong>Position:</strong> {{ professor.position }}</p>
-            <p><strong>Main Research Group:</strong>
-              {% if professor.research_group %}
-                {{ professor.research_group }}
-              {% else %}
-                <span>-</span>
-              {% endif %}
-            </p>
-            <p><strong>Leads Group:</strong>
-              {% if professor.leads_research_group %}
-                {{ professor.leads_research_group }}
-              {% else %}
-                <span>-</span>
-              {% endif %}
-            </p>
-            {% if professor.bio %}
-              <p>{{ professor.bio|truncatewords:30 }}</p>
-            {% endif %}
+<h1>Professors</h1>
+{% include "includes/view_toggle.html" with view_mode=view_mode %}
+{% if view_mode == "list" %}
+  <ul>
+    {% for professor in professors %}
+      {% if professor.research_group and professor.research_group.lead_professor and professor.research_group.lead_professor.id == professor.id %}
+        <li>
+          <a href="{% url 'professor_detail' professor.id %}">
+            {{ professor.title }} {{ professor.name }}
+          </a>, Head of Research Group:
+          <a href="{% url 'researchgroup_detail' professor.research_group.id %}">
+            {{ professor.research_group.name }}
+          </a>
+        </li>
+      {% else %}
+        <li>
+          <a href="{% url 'professor_detail' professor.id %}">
+            {{ professor.title }} {{ professor.name }}
+          </a>
+          {% if professor.research_group %}
+            ({{ professor.research_group.name }})
+          {% endif %}
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>No professors found.</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div style="display:flex; flex-wrap:wrap; gap:2em; margin-top:2em;">
+    {% for professor in professors %}
+      <div style="background:#f8fafc; border-radius:8px; box-shadow:0 2px 8px #ddd; width:330px; padding:1.5em;">
+        <h2 style="margin-top:0;">
+          <a href="{% url 'professor_detail' professor.id %}" style="color:#005baa; text-decoration:none;">
+            {{ professor.title }} {{ professor.name }}
+          </a>
+        </h2>
+        {% if professor.research_group and professor.research_group.lead_professor and professor.research_group.lead_professor.id == professor.id %}
+          <div style="font-size:0.97em; color:#555;">
+            Head of Research Group:
+            <a href="{% url 'researchgroup_detail' professor.research_group.id %}">
+              {{ professor.research_group.name }}
+            </a>
           </div>
-        {% endfor %}
+        {% elif professor.research_group %}
+          <div style="font-size:0.97em; color:#555;">
+            <a href="{% url 'researchgroup_detail' professor.research_group.id %}" style="color:#3b8fc1;">
+              {{ professor.research_group.name }}
+            </a>
+          </div>
+        {% endif %}
+        {% if professor.image_url %}
+          <img src="{{ professor.image_url }}" alt="{{ professor }}" style="max-width:100%; border-radius:6px; margin:1em 0;">
+        {% endif %}
       </div>
-    {% endif %}
-  {% else %}
-    <p>No professors found.</p>
-  {% endif %}
+    {% empty %}
+      <p>No professors found.</p>
+    {% endfor %}
+  </div>
+{% endif %}
 {% endblock %}

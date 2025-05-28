@@ -1,35 +1,50 @@
 {% extends "core/base.html" %}
-
+{% block title %}Professor: {{ professor }} | University Database{% endblock %}
 {% block content %}
-  <div class="professor-detail">
-    <h2>{{ professor.title }} {{ professor.name }}</h2>  <!-- Dynamic name only -->
-    {% if professor.image_url %}
-      <img src="{{ professor.image_url }}" alt="{{ professor.name }}" class="professor-photo">
-    {% endif %}
-
-    <ul class="professor-info">
-      <li><strong>Position:</strong> {{ professor.position }}</li>
-      <li><strong>Main Research Group:</strong>
-        {% if professor.research_group %}
-          {{ professor.research_group }}
-        {% else %}
-          <span>-</span>
-        {% endif %}
-      </li>
-      <li><strong>Leads Group:</strong>
-        {% if professor.leads_research_group %}
-          {{ professor.leads_research_group }}
-        {% else %}
-          <span>-</span>
-        {% endif %}
-      </li>
-    </ul>
-
-    {% if professor.bio %}
-      <h3>Bio</h3>
-      <p class="professor-bio">{{ professor.bio }}</p>
-    {% endif %}
-
-    <a href="{% url 'professor_list' %}">&larr; Back to Professors</a>
+<h1 style="color:#005baa;">{{ professor }}</h1>
+<p style="color:#333;">
+  <strong>Position:</strong> {{ professor.position }}<br>
+  {% if professor.research_group %}
+    <strong>Head of Research Group:</strong>
+    <a href="{% url 'researchgroup_detail' professor.research_group.id %}" style="color:#3b8fc1;">
+      {{ professor.research_group.name }}
+    </a>
+  {% endif %}
+</p>
+{% if professor.image_url %}
+  <img src="{{ professor.image_url }}" alt="{{ professor }}" style="max-width:240px; border-radius:8px; margin-bottom:1em;">
+{% endif %}
+{% if professor.bio %}
+  <div style="margin:1.5em 0;">
+    <strong>Bio:</strong>
+    <div style="color:#444; margin-top:0.3em;">{{ professor.bio }}</div>
   </div>
+{% endif %}
+
+<hr>
+<h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">Courses</h2>
+<ul style="list-style:none; padding:0;">
+  {% for course in professor.courses.all %}
+    <li style="margin-bottom:0.7em;">
+      <a href="{% url 'course_detail' course.id %}" style="color:#005baa;">
+        {{ course.name }}
+      </a>
+    </li>
+  {% empty %}
+    <li>No courses taught by this professor.</li>
+  {% endfor %}
+</ul>
+
+{% if professor.phd_students.all.count %}
+  <h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">PhD Students Supervised</h2>
+  <ul style="list-style:none; padding:0;">
+    {% for student in professor.phd_students.all %}
+      <li style="margin-bottom:0.7em;">
+        <a href="{% url 'phdstudent_detail' student.id %}" style="color:#005baa;">
+          {{ student }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endif %}
 {% endblock %}

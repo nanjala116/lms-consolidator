@@ -1,28 +1,20 @@
-{% extends "university/base.html" %}
+{% extends "core/base.html" %}
 {% block title %}Research Group: {{ group.name }} | University Database{% endblock %}
 {% block content %}
 <h1 style="color:#005baa;">{{ group.name }}</h1>
 <p style="font-size:1.08em; color:#333;">{{ group.description }}</p>
 <hr>
 
-<h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">Lead Professor</h2>
+<h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">Head of Research Group</h2>
 {% if group.lead_professor %}
   <a href="{% url 'professor_detail' group.lead_professor.id %}" style="color:#3b8fc1; font-weight:600;">
     {{ group.lead_professor }}
   </a>
 {% else %}
-  <span style="color:#888;">No lead professor assigned.</span>
+  <span style="color:#888;">No head assigned.</span>
 {% endif %}
 
-{# Main Professor (OneToOne reverse from Professor.research_group) #}
-<h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">Main Professor</h2>
-{% if group.main_professor %}
-  <a href="{% url 'professor_detail' group.main_professor.id %}" style="color:#3b8fc1; font-weight:600;">
-    {{ group.main_professor }}
-  </a>
-{% else %}
-  <span style="color:#888;">No main professor assigned.</span>
-{% endif %}
+{# Main Professor section removed #}
 
 <h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">PhD Students</h2>
 <ul style="list-style:none; padding:0;">

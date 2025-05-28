@@ -4,16 +4,18 @@ class PhDStudent(models.Model):
     title = models.CharField(max_length=50, blank=True)
     name = models.CharField(max_length=255)
     research_group = models.ForeignKey(
-        'research_groups.ResearchGroup',  # Use string reference for cross-app relation
+        'research_groups.ResearchGroup',
         on_delete=models.CASCADE,
-        related_name='phd_students'
+        related_name='phd_students',
+        blank=True, null=True
     )
     supervisor = models.ForeignKey(
-        'professors.Professor',           # Use string reference for cross-app relation
+        'professors.Professor',
         on_delete=models.CASCADE,
-        related_name='phd_students'
+        related_name='phd_students',
+        blank=True, null=True
     )
-    enrollment_date = models.DateField()
+    enrollment_date = models.DateField(blank=True, null=True)
     image_url = models.URLField(blank=True)
 
     class Meta:

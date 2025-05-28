@@ -1,33 +1,44 @@
 {% extends "core/base.html" %}
-
+{% block title %}Course: {{ course.name }} | University Database{% endblock %}
 {% block content %}
-  <h1>{{ course.name }}</h1>
-  {% if course.image_url %}
-    <img src="{{ course.image_url }}" alt="{{ course.name }}" width="180" style="margin-bottom: 1em;">
-  {% endif %}
-  <ul>
-    <li><strong>Code:</strong> {{ course.code }}</li>
-    <li><strong>Credits:</strong> {{ course.credits }}</li>
-    <li><strong>Format:</strong> {{ course.format }}</li>
-    <li><strong>Level:</strong> {{ course.level }}</li>
-    <li><strong>Start Date:</strong> {{ course.start_date }}</li>
-    <li><strong>End Date:</strong> {{ course.end_date }}</li>
-    <li><strong>Professors:</strong>
-      {% for professor in course.professors.all %}
-        {{ professor }}{% if not forloop.last %}, {% endif %}
-      {% empty %}
-        <span>None</span>
-      {% endfor %}
+<h1 style="color:#005baa;">{{ course.name }}</h1>
+<p style="font-size:1.08em; color:#333;">{{ course.description }}</p>
+{% if course.image_url %}
+  <img src="{{ course.image_url }}" alt="{{ course.name }}" style="max-width:220px; border-radius:8px; margin-bottom:1em;">
+{% endif %}
+
+<div style="margin:1.5em 0; color:#444;">
+  <strong>Code:</strong> {{ course.code }}<br>
+  <strong>Credits:</strong> {{ course.credits }}<br>
+  <strong>Level:</strong> {{ course.level }}<br>
+  <strong>Format:</strong> {{ course.format }}<br>
+  <strong>Start Date:</strong> {{ course.start_date }}<br>
+  <strong>End Date:</strong> {{ course.end_date }}
+</div>
+<hr>
+<h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">Professors</h2>
+<ul style="list-style:none; padding:0;">
+  {% for professor in course.professors.all %}
+    <li style="margin-bottom:0.7em;">
+      <a href="{% url 'professor_detail' professor.id %}" style="color:#005baa;">
+        {{ professor }}
+      </a>
     </li>
-    <li><strong>Research Groups:</strong>
-      {% for group in course.research_groups.all %}
-        {{ group }}{% if not forloop.last %}, {% endif %}
-      {% empty %}
-        <span>None</span>
-      {% endfor %}
+  {% empty %}
+    <li>No professors assigned.</li>
+  {% endfor %}
+</ul>
+
+<h2 style="font-size:1.1em; color:#003e68; margin-top:2em;">Research Groups</h2>
+<ul style="list-style:none; padding:0;">
+  {% for group in course.research_groups.all %}
+    <li style="margin-bottom:0.7em;">
+      <a href="{% url 'researchgroup_detail' group.id %}" style="color:#005baa;">
+        {{ group.name }}
+      </a>
     </li>
-  </ul>
-  <h3>Description</h3>
-  <p>{{ course.description }}</p>
-  <a href="{% url 'course_list' %}">&larr; Back to Courses</a>
+  {% empty %}
+    <li>No research groups associated.</li>
+  {% endfor %}
+</ul>
 {% endblock %}

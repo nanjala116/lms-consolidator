@@ -2,17 +2,14 @@
 {% block title %}Research Groups | University Database{% endblock %}
 {% block content %}
 <h1>Research Groups</h1>
-<div>
-  <a href="?view=list"{% if view_mode == "list" %} style="font-weight:bold;"{% endif %}>List View</a> |
-  <a href="?view=block"{% if view_mode == "block" %} style="font-weight:bold;"{% endif %}>Block View</a>
-</div>
+{% include "includes/view_toggle.html" with view_mode=view_mode %}
 {% if view_mode == "list" %}
   <ul>
     {% for group in groups %}
       <li>
         <a href="{% url 'researchgroup_detail' group.id %}">{{ group.name }}</a>
         {% if group.lead_professor %}
-          — Lead:
+          — Head of Research Group:
           <a href="{% url 'professor_detail' group.lead_professor.id %}">
             {{ group.lead_professor.name }}
           </a>
@@ -36,11 +33,11 @@
         </h2>
         {% if group.lead_professor %}
           <div style="font-size:0.97em; color:#555;">
-            Lead Professor:
+            Head of Research Group:
             <a href="{% url 'professor_detail' group.lead_professor.id %}">{{ group.lead_professor.name }}</a>
           </div>
         {% else %}
-          <div style="font-size:0.97em; color:#888;">No lead professor</div>
+          <div style="font-size:0.97em; color:#888;">No head assigned</div>
         {% endif %}
         {% if group.description %}
           <div style="margin-top:1em;">{{ group.description|linebreaksbr }}</div>

@@ -1,17 +1,34 @@
 {% extends "core/base.html" %}
-
+{% block title %}PhD Student: {{ student }} | University Database{% endblock %}
 {% block content %}
-  <h1>{{ student.title }} {{ student.name }}</h1>
-
-  {% if student.image_url %}
-    <img src="{{ student.image_url }}" alt="{{ student.name }}" width="180" style="margin-bottom: 1em;">
+<h1 style="color:#005baa;">{{ student }}</h1>
+{% if student.image_url %}
+  <img src="{{ student.image_url }}" alt="{{ student }}" style="max-width:220px; border-radius:8px; margin-bottom:1em;">
+{% endif %}
+<div style="margin:1.5em 0; color:#444;">
+  <strong>Research Group:</strong>
+  {% if student.research_group %}
+    <a href="{% url 'researchgroup_detail' student.research_group.id %}" style="color:#3b8fc1;">
+      {{ student.research_group.name }}
+    </a>
+  {% else %}
+    <span style="color:#888;">—</span>
   {% endif %}
-
-  <ul>
-    <li><strong>Research Group:</strong> {{ student.research_group }}</li>
-    <li><strong>Supervisor:</strong> {{ student.supervisor }}</li>
-    <li><strong>Enrolled:</strong> {{ student.enrollment_date }}</li>
-  </ul>
-
-  <a href="{% url 'phdstudent_list' %}">&larr; Back to PhD Students</a>
+  <br>
+  <strong>Supervisor:</strong>
+  {% if student.supervisor %}
+    <a href="{% url 'professor_detail' student.supervisor.id %}" style="color:#3b8fc1;">
+      {{ student.supervisor }}
+    </a>
+  {% else %}
+    <span style="color:#888;">—</span>
+  {% endif %}
+  <br>
+  <strong>Enrollment Date:</strong>
+  {% if student.enrollment_date %}
+    {{ student.enrollment_date }}
+  {% else %}
+    <span style="color:#888;">—</span>
+  {% endif %}
+</div>
 {% endblock %}
