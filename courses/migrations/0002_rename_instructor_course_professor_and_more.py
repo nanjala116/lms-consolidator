@@ -10,15 +10,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RenameField(
-            model_name='course',
-            old_name='instructor',
-            new_name='professor',
-        ),
-        migrations.RemoveField(
-            model_name='course',
-            name='title',
-        ),
         migrations.AddField(
             model_name='course',
             name='description',
@@ -38,7 +29,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='course',
             name='start_date',
-            field=models.DateField(default='24-10-2025'),
+            field=models.DateField(default='2025-10-25'),
             preserve_default=False,
         ),
         migrations.AlterField(
