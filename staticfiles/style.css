@@ -1,0 +1,225 @@
+/* Main color palette */
+:root {
+  --primary-color: #005baa;
+  --secondary-color: #3b8fc1;
+  --accent-color: #e1e8ed;
+  --text-color: #222;
+  --background-color: #fff;
+  --nav-bg: #003e68;
+  --nav-text: #fff;
+  --button-bg: #005baa;
+  --button-text: #fff;
+  --button-hover-bg: #003e68;
+}
+
+/* General styles */
+body {
+  font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--background-color);
+  color: var(--text-color);
+  min-height: 100vh;
+}
+
+/* Navigation Bar */
+nav {
+  background: var(--nav-bg);
+  padding: 0.5em 0;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: center;
+  list-style: none;
+}
+
+nav li {
+  margin: 0 1.2em;
+}
+
+nav a {
+  color: var(--nav-text);
+  text-decoration: none;
+  font-size: 1.1em;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+
+nav a:hover {
+  color: var(--secondary-color);
+}
+
+/* Hero Section */
+.hero {
+  background: linear-gradient(90deg, var(--primary-color) 65%, var(--secondary-color) 100%);
+  color: #fff;
+  text-align: center;
+  padding: 4em 1em 3em 1em;
+}
+
+.hero h1 {
+  font-size: 2.8em;
+  font-weight: 800;
+  margin-bottom: 0.3em;
+  letter-spacing: 1px;
+}
+
+.hero p {
+  font-size: 1.35em;
+  font-weight: 400;
+  margin-bottom: 1.8em;
+}
+
+.hero .hero-btn {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 6px;
+  padding: 0.9em 2em;
+  font-size: 1.1em;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.hero .hero-btn:hover {
+  background: var(--button-hover-bg);
+}
+
+/* Main Content Layout */
+.container {
+  max-width: 1200px;
+  margin: -2em auto 0 auto;
+  padding: 2em 1.5em 3em 1.5em;
+}
+
+/* Card Section */
+.card-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2em;
+  justify-content: center;
+  margin-top: 2.5em;
+}
+
+.card {
+  background: var(--accent-color);
+  border-radius: 10px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+  padding: 2em 1.5em;
+  width: 320px;
+  min-height: 240px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  transition: box-shadow 0.18s;
+}
+
+.card:hover {
+  box-shadow: 0 4px 18px rgba(0,0,0,0.11);
+}
+
+.card h2 {
+  font-size: 1.3em;
+  color: var(--primary-color);
+  margin-bottom: 0.7em;
+}
+
+.card p {
+  font-size: 1em;
+  color: var(--text-color);
+  margin-bottom: 0.7em;
+}
+
+/* Footer */
+footer {
+  background: var(--accent-color);
+  color: var(--primary-color);
+  text-align: center;
+  padding: 1.3em 0 1em 0;
+  margin-top: 2em;
+  font-size: 1em;
+  letter-spacing: 0.03em;
+  border-top: 1px solid #d2dbe2;
+}
+
+/* Responsive */
+@media (max-width: 900px) {
+  .card-section {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5em;
+  }
+
+  .container {
+    padding: 2em 0.5em 2em 0.5em;
+  }
+}
+
+/* Professor Detail Styles */
+.professor-detail {
+    max-width: 400px; /* Adjust as needed */
+    margin: 20px auto;
+    padding: 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.professor-detail h1 {
+    font-size: 2.2em;
+    margin-bottom: 0.5em;
+    color: #333;
+}
+
+.professor-detail h2 {
+    font-size: 1.8em;
+    margin-bottom: 0.5em;
+    color: #555;
+}
+
+.professor-photo {
+    max-width: 100px; /* Or a value you find suitable */
+    height: auto;
+    margin-bottom: 1em;
+    border-radius: 50%; /* Optional: Make it a circle */
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1); /* Optional shadow */
+}
+
+.professor-info {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 1.5em;
+}
+
+.professor-info li {
+    margin-bottom: 0.5em;
+    font-size: 1.1em;
+}
+
+.professor-info strong {
+    font-weight: 600;
+    color: #444;
+    display: inline-block;
+    width: 180px; /* Adjust as needed */
+}
+
+.professor-bio {
+    font-size: 1.1em;
+    line-height: 1.6;
+    color: #555;
+}
+
+.professor-detail a {
+    color: #007bff;
+    text-decoration: none;
+}
+
+.professor-detail a:hover {
+    text-decoration: underline;
+}

@@ -1,0 +1,41 @@
+<style>
+  .view-toggle {
+    margin-bottom: 1em;
+    display: flex;
+    gap: 0.5em;
+    align-items: center;
+  }
+  .view-toggle a {
+    display: inline-block;
+    padding: 0.25em 0.5em;
+    border-radius: 5px;
+    color: #005baa;
+    background: none;
+    transition: background 0.2s;
+    text-decoration: none;
+    font-size: 1.2em;
+    vertical-align: middle;
+  }
+  .view-toggle a.active,
+  .view-toggle a:active {
+    background: #e2eefc;
+    color: #003e68;
+    font-weight: bold;
+  }
+  .view-toggle svg {
+    width: 1.3em;
+    height: 1.3em;
+    vertical-align: middle;
+    margin-right: 0.1em;
+    margin-bottom: -0.15em;
+    fill: currentColor;
+  }
+</style>
+<div class="view-toggle">
+  <a href="?view=list"{% if view_mode == "list" %} class="active"{% endif %} title="List View">
+    <svg viewBox="0 0 24 24"><rect x="4" y="6" width="16" height="2"/><rect x="4" y="11" width="16" height="2"/><rect x="4" y="16" width="16" height="2"/></svg>
+  </a>
+  <a href="?view=block"{% if view_mode == "block" %} class="active"{% endif %} title="Block View">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+  </a>
+</div>

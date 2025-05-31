@@ -1,0 +1,64 @@
+{% extends "core/base.html" %}
+{% block title %}Professors | University Database{% endblock %}
+{% block content %}
+<h1>Professors</h1>
+{% include "includes/view_toggle.html" with view_mode=view_mode %}
+{% if view_mode == "list" %}
+  <ul>
+    {% for professor in professors %}
+      {% if professor.research_group and professor.research_group.lead_professor and professor.research_group.lead_professor.id == professor.id %}
+        <li>
+          <a href="{% url 'professor_detail' professor.id %}">
+            {{ professor.title }} {{ professor.name }}
+          </a>, Head of Research Group:
+          <a href="{% url 'researchgroup_detail' professor.research_group.id %}">
+            {{ professor.research_group.name }}
+          </a>
+        </li>
+      {% else %}
+        <li>
+          <a href="{% url 'professor_detail' professor.id %}">
+            {{ professor.title }} {{ professor.name }}
+          </a>
+          {% if professor.research_group %}
+            ({{ professor.research_group.name }})
+          {% endif %}
+        </li>
+      {% endif %}
+    {% empty %}
+      <li>No professors found.</li>
+    {% endfor %}
+  </ul>
+{% else %}
+  <div style="display:flex; flex-wrap:wrap; gap:2em; margin-top:2em;">
+    {% for professor in professors %}
+      <div style="background:#f8fafc; border-radius:8px; box-shadow:0 2px 8px #ddd; width:330px; padding:1.5em;">
+        <h2 style="margin-top:0;">
+          <a href="{% url 'professor_detail' professor.id %}" style="color:#005baa; text-decoration:none;">
+            {{ professor.title }} {{ professor.name }}
+          </a>
+        </h2>
+        {% if professor.research_group and professor.research_group.lead_professor and professor.research_group.lead_professor.id == professor.id %}
+          <div style="font-size:0.97em; color:#555;">
+            Head of Research Group:
+            <a href="{% url 'researchgroup_detail' professor.research_group.id %}">
+              {{ professor.research_group.name }}
+            </a>
+          </div>
+        {% elif professor.research_group %}
+          <div style="font-size:0.97em; color:#555;">
+            <a href="{% url 'researchgroup_detail' professor.research_group.id %}" style="color:#3b8fc1;">
+              {{ professor.research_group.name }}
+            </a>
+          </div>
+        {% endif %}
+        {% if professor.image_url %}
+          <img src="{{ professor.image_url }}" alt="{{ professor }}" style="max-width:100%; border-radius:6px; margin:1em 0;">
+        {% endif %}
+      </div>
+    {% empty %}
+      <p>No professors found.</p>
+    {% endfor %}
+  </div>
+{% endif %}
+{% endblock %}

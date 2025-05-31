@@ -1,0 +1,36 @@
+{% extends "core/base.html" %}
+{% block title %}Home | University Database{% endblock %}
+{% block content %}
+<section style="text-align:center; padding:2.5em 0 2.5em 0;">
+    <h1 style="font-size:2.5em; color:var(--primary); font-weight:800; margin-bottom:0.2em;">
+        Welcome to the University Database
+    </h1>
+    <p style="font-size:1.2em; color:#333; max-width:600px; margin:0 auto 2em auto;">
+        Your gateway to innovative courses, distinguished professors, dynamic research groups, and dedicated PhD students.<br>
+        Navigate, discover, and connect with all academic resources in one place.
+    </p>
+    <div style="display:flex; flex-wrap:wrap; justify-content:center; gap:1.5em;">
+        <a href="{% url 'course_list' %}" style="display:inline-block; background:var(--primary); color:#fff; font-weight:600; text-decoration:none; border-radius:8px; padding:1em 2.2em; font-size:1.1em; transition:background 0.2s;">Courses</a>
+        <a href="{% url 'professor_list' %}" style="display:inline-block; background:var(--primary); color:#fff; font-weight:600; text-decoration:none; border-radius:8px; padding:1em 2.2em; font-size:1.1em; transition:background 0.2s;">Professors</a>
+        <a href="{% url 'researchgroup_list' %}" style="display:inline-block; background:var(--primary); color:#fff; font-weight:600; text-decoration:none; border-radius:8px; padding:1em 2.2em; font-size:1.1em; transition:background 0.2s;">Research Groups</a>
+        <a href="{% url 'phdstudent_list' %}" style="display:inline-block; background:var(--primary); color:#fff; font-weight:600; text-decoration:none; border-radius:8px; padding:1em 2.2em; font-size:1.1em; transition:background 0.2s;">PhD Students</a>
+    </div>
+</section>
+
+<section style="max-width:900px; margin:3em auto 0 auto; display:flex; flex-wrap:wrap; gap:2em; justify-content:center;">
+    <div style="background:var(--light-bg); border-radius:10px; box-shadow:0 2px 12px rgba(0,0,0,0.05); padding:2em 1.5em; flex:1 1 220px; min-width:260px; max-width:320px;">
+        <h2 style="color:var(--nav-bg); margin-top:0; font-size:1.2em;">Why Choose Us?</h2>
+        <ul style="color:#444; font-size:1em; padding-left:1.2em; text-align:left;">
+            <li>Modern, student-centered learning</li>
+            <li>Renowned and dedicated faculty</li>
+            <li>Cutting-edge research opportunities</li>
+            <li>Collaborative academic environment</li>
+        </ul>
+    </div>
+    <div style="background:var(--light-bg); border-radius:10px; box-shadow:0 2px 12px rgba(0,0,0,0.05); padding:2em 1.5em; flex:1 1 220px; min-width:260px; max-width:320px;">
+        <h2 style="color:var(--nav-bg); margin-top:0; font-size:1.2em;">Get Started</h2>
+        <p style="color:#444;">Begin exploring our academic offerings or connect with our professors and research groups. Your journey into knowledge starts here!</p>
+        <a href="{% url 'course_list' %}" style="margin-top:1em; display:inline-block; background:var(--primary); color:#fff; border-radius:6px; padding:0.7em 1.5em; text-decoration:none; font-weight:600;">Explore Courses</a>
+    </div>
+</section>
+{% endblock %}
