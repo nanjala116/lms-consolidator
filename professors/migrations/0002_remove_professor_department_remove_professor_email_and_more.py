@@ -10,14 +10,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='professor',
-            name='department',
-        ),
-        migrations.RemoveField(
-            model_name='professor',
-            name='email',
-        ),
+        
         migrations.AddField(
             model_name='professor',
             name='title',
