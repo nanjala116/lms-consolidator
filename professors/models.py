@@ -6,7 +6,7 @@ class Professor(models.Model):
     position = models.CharField(max_length=255)
     # One-to-one relationship with research group (main_professor)
     research_group = models.OneToOneField(
-        'research_groups.ResearchGroup',  # string reference to avoid import cycle
+        'research_groups.ResearchGroup',  
         related_name='main_professor',
         on_delete=models.SET_NULL,
         null=True,
@@ -14,7 +14,7 @@ class Professor(models.Model):
     )
     # One-to-one relationship where professor is the lead of a group
     leads_research_group = models.OneToOneField(
-        'research_groups.ResearchGroup',  # string reference to avoid import cycle
+        'research_groups.ResearchGroup',  
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
