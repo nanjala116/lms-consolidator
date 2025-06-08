@@ -14,21 +14,12 @@ from .api_views import CourseViewSet, MOOChubCourseViewSet
 # Create a router and register our viewsets with it
 router = DefaultRouter()
 
-# The first argument is the URL prefix, and the second argument is the viewset class
-# This will create the following URL patterns:
-# - /api/courses/ (list and create)
-# - /api/courses/{id}/ (retrieve, update, partial update, destroy)
-# - /api/courses/{id}/{custom_action}/ (for any custom actions defined in the viewset)
-router.register(r'courses', CourseViewSet)
+# Register the CourseViewSet with the basename 'course'
+router.register(r'courses', CourseViewSet, basename='course')
 
-# Register the MOOChub-compatible viewset with a different URL prefix
-# This creates a separate API endpoint specifically formatted for MOOChub
-# - /api/moochub/courses/ (list only)
-# - /api/moochub/courses/{id}/ (retrieve only)
-router.register(r'moochub/courses', MOOChubCourseViewSet)
+# Register the MOOChubCourseViewSet with a unique basename to avoid conflicts
+router.register(r'moochub/courses', MOOChubCourseViewSet, basename='moochub-course')
 
-# The API URLs are determined automatically by the router
 urlpatterns = [
-    # Include the router-generated URLs in our urlpatterns
     path('', include(router.urls)),
 ]

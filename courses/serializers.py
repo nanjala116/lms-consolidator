@@ -7,6 +7,7 @@ and vice versa, enabling API functionality for the courses app.
 
 from rest_framework import serializers
 from courses.models import Course
+from django.urls import reverse
 
 class CourseSerializer(serializers.ModelSerializer):
     """
@@ -94,10 +95,8 @@ class MOOChubCourseSerializer(serializers.ModelSerializer):
             return ["online"]
             
         format_mapping = {
-            'SELF_PACED': 'asynchronous',
-            'SCHEDULED': 'synchronous',
-            'BLENDED': 'blended',
-            'ONLINE': 'online',
+            'Self-paced': 'asynchronous',
+            'Scheduled': 'synchronous',
             # Add other mappings as needed
         }
         return [format_mapping.get(obj.format.upper(), 'online')]
@@ -120,26 +119,29 @@ class MOOChubCourseSerializer(serializers.ModelSerializer):
         return []
     
     def get_duration(self, obj):
-        """Convert credits to ISO 8601 duration format (hours)."""
-        if obj.credits:
-            # For master's: 5 credits = 125 hours, so 1 credit = 25 hours
-            # For MBA: 4 credits = 120 hours, so 1 credit = 30 hours
-            # For Master's: 5 credits = 125 hours, so 1 credit = 25 hours
-            # For Standalone: assume 1 credit = 20 hours
-            if hasattr(obj, 'level') and obj.level:
-                level = obj.level.upper()
-                if level == 'MBA':
-                    hours = obj.credits * 30
-                elif level == 'MASTERS':
-                    hours = obj.credits * 25
-                elif level == 'STANDALONE':
-                    hours = obj.credits * 20
-                else:
-                    hours = obj.credits * 25  # Default to master's
+        """
+        Convert course credits or level to ISO 8601 duration format (hours) for MOOChub.
+
+        - For MBA, Master, and Micro Degree: 1 credit = 25 hours.
+        - For Basic (open courses): always 14 hours.
+        - If level is missing or unrecognized, default to Basic (14 hours).
+        """
+        hours = None
+        level = getattr(obj, 'level', None)
+        if level:
+            # Ensure case-insensitive comparison, but match database capitalization
+            if level in ['MBA', 'Master', 'Micro Degree']:
+                # For MBA, Master, and Micro Degree, 1 credit = 25 hours
+                hours = obj.credits * 25 if obj.credits else None
+            elif level == 'Basics':
+                hours = 14
             else:
-                hours = obj.credits * 25  # Default to master's
-            return f"PT{hours}H"
-        return None
+                hours = obj.credits * 25 if obj.credits else 14
+        else:
+            # Default to Basic if level is missing
+            hours = 14
+
+        return f"PT{hours}H" if hours else None
     
     def get_instructor(self, obj):
         """Return instructors in MOOChub format."""
@@ -160,9 +162,12 @@ class MOOChubCourseSerializer(serializers.ModelSerializer):
         }
     
     def get_url(self, obj):
-        """Return the URL for this course."""
-        # Use a generic URL pattern with the course code
-        return f"https://german-uds.academy/courses/{obj.code}"
+        """Return the absolute URL for this course using Django's reverse()."""
+        request = self.context.get('request')
+        url = reverse('courses:course-detail', kwargs={'pk': obj.pk})
+        if request is not None:
+            return request.build_absolute_uri(url)
+        return url
     
     def get_image(self, obj):
         """Return image information in MOOChub format."""

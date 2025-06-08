@@ -14,18 +14,11 @@ from .api_views import PhDStudentViewSet, MOOChubPhDStudentViewSet
 # Create a router and register our viewsets with it
 router = DefaultRouter()
 
-# The first argument is the URL prefix, and the second argument is the viewset class
-# This will create the following URL patterns:
-# - /api/phd_students/ (list and create)
-# - /api/phd_students/{id}/ (retrieve, update, partial update, destroy)
-# - /api/phd_students/{id}/{custom_action}/ (for any custom actions defined in the viewset)
-router.register(r'phd_students', PhDStudentViewSet)
+# Register the PhDStudentViewSet with a unique basename to avoid conflicts
+router.register(r'phd_students', PhDStudentViewSet, basename='phdstudent-api')
 
-# Register the MOOChub-compatible viewset with a different URL prefix
-# This creates a separate API endpoint specifically formatted for MOOChub
-# - /api/moochub/students/ (list only)
-# - /api/moochub/students/{id}/ (retrieve only)
-router.register(r'moochub/students', MOOChubPhDStudentViewSet)
+# Register the MOOChub-compatible viewset with a different URL prefix and unique basename
+router.register(r'moochub/students', MOOChubPhDStudentViewSet, basename='moochub-phdstudent')
 
 # The API URLs are determined automatically by the router
 urlpatterns = [
